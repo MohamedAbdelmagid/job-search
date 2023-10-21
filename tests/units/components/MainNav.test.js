@@ -8,4 +8,18 @@ describe("MainNav", () => {
     const companyName = screen.getByText("SoftBanks Careers");
     expect(companyName).toBeInTheDocument();
   });
+
+  it("displays pages for navigation", () => {
+    const component = render(MainNav);
+    const menuItems = component.getAllByRole("listitem");
+    const menuItemsTexts = menuItems.map((item) => item.textContent);
+    expect(menuItemsTexts).toEqual([
+      "Teams",
+      "Locations",
+      "Life at SoftBanks",
+      "How we hire",
+      "Students",
+      "Jobs",
+    ]);
+  });
 });
