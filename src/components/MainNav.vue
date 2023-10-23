@@ -20,12 +20,18 @@
             </li>
           </ul>
         </nav>
+
+        <div class="ml-auto my-auto">
+          <ActionButton />
+        </div>
       </div>
     </div>
   </header>
 </template>
 
 <script>
+import ActionButton from "@/components/ActionButton.vue";
+
 export default {
   name: "MainNav",
   data() {
@@ -58,6 +64,9 @@ export default {
         },
       ],
     };
+  },
+  components: {
+    ActionButton,
   },
 };
 </script>
