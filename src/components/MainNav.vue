@@ -22,7 +22,8 @@
         </nav>
 
         <div class="ml-auto my-auto">
-          <ActionButton />
+          <ProfileImage v-if="isLoggedIn" />
+          <ActionButton v-else @click="loginUser" />
         </div>
       </div>
     </div>
@@ -31,6 +32,7 @@
 
 <script>
 import ActionButton from "@/components/ActionButton.vue";
+import ProfileImage from '@/components/ProfileImage.vue';
 
 export default {
   name: "MainNav",
@@ -63,10 +65,17 @@ export default {
           link: "/",
         },
       ],
+      isLoggedIn: false
     };
+  },
+  methods: {
+    loginUser() {
+      this.isLoggedIn = true
+    }
   },
   components: {
     ActionButton,
+    ProfileImage,
   },
 };
 </script>

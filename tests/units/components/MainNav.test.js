@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/vue";
+import userAction from "@testing-library/user-event";
 import MainNav from "@/components/MainNav.vue";
 import { describe, expect } from "vitest";
 
@@ -21,5 +22,29 @@ describe("MainNav", () => {
       "Students",
       "Jobs",
     ]);
+  });
+
+  describe("When the user logs in", () => {
+    it("Displays user profile picture", async () => {
+      const component = render(MainNav);
+
+      // Test if profile image is not exist
+      let profileImage = component.queryByRole("img", {
+        name: /Profile Image/i,
+      });
+      expect(profileImage).not.toBeInTheDocument();
+
+      // Sign in the user
+      const loginButton = component.getByRole("button", {
+        name: /sign in/i,
+      });
+      await userAction.click(loginButton);
+
+      // Test if profile image is exist
+      profileImage = component.queryByRole("img", {
+        name: /Profile Image/i,
+      });
+      expect(profileImage).toBeInTheDocument();
+    });
   });
 });
