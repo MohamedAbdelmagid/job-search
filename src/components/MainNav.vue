@@ -23,7 +23,7 @@
 
         <div class="ml-auto my-auto">
           <ProfileImage v-if="isLoggedIn" />
-          <ActionButton v-else @click="loginUser" />
+          <ActionButton v-else text="Sign in" @click="loginUser" />
         </div>
       </div>
     </div>
