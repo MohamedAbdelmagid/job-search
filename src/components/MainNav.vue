@@ -21,18 +21,21 @@
           </ul>
         </nav>
 
-        <div class="ml-auto my-auto">
+        <div class="my-auto ml-auto">
           <ProfileImage v-if="isLoggedIn" />
           <ActionButton v-else text="Sign in" @click="loginUser" />
         </div>
       </div>
+
+      <SubNav v-if="isLoggedIn" />
     </div>
   </header>
 </template>
 
 <script>
 import ActionButton from "@/components/ActionButton.vue";
-import ProfileImage from '@/components/ProfileImage.vue';
+import ProfileImage from "@/components/ProfileImage.vue";
+import SubNav from "@/components/SubNav.vue";
 
 export default {
   name: "MainNav",
@@ -65,17 +68,18 @@ export default {
           link: "/",
         },
       ],
-      isLoggedIn: false
+      isLoggedIn: false,
     };
   },
   methods: {
     loginUser() {
-      this.isLoggedIn = true
-    }
+      this.isLoggedIn = true;
+    },
   },
   components: {
     ActionButton,
     ProfileImage,
+    SubNav,
   },
 };
 </script>
