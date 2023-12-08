@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import MainNav from "@/components/MainNav.vue";
+import MainNav from "@/components/nav/MainNav.vue";
 import Content from "@/components/Content.vue";
 
 export default {

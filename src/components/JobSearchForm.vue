@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import ActionButton from "@/components/ActionButton.vue";
+import ActionButton from "@/components/shared/ActionButton.vue";
 
 export default {
   name: "JobSearchForm",
