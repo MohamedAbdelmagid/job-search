@@ -1,17 +1,29 @@
-import { render, screen } from "@testing-library/vue";
+import { render } from "@testing-library/vue";
 import userAction from "@testing-library/user-event";
+import { RouterLinkStub } from "@vue/test-utils";
+
 import MainNav from "@/components/nav/MainNav.vue";
-import { describe, expect } from "vitest";
 
 describe("MainNav", () => {
+  const renderMainNav = () => {
+    return render(MainNav, {
+      global: {
+        stubs: {
+          FontAwesomeIcon: true,
+          RouterLink: RouterLinkStub,
+        },
+      },
+    });
+  };
+
   it("Displays company name", () => {
-    render(MainNav);
-    const companyName = screen.getByText("SoftBanks Careers");
+    const component = renderMainNav();
+    const companyName = component.getByText("SoftBanks Careers");
     expect(companyName).toBeInTheDocument();
   });
 
   it("Displays pages for navigation", () => {
-    const component = render(MainNav);
+    const component = renderMainNav();
     const menuItems = component.getAllByRole("listitem");
     const menuItemsTexts = menuItems.map((item) => item.textContent);
     expect(menuItemsTexts).toEqual([
@@ -25,7 +37,7 @@ describe("MainNav", () => {
   });
 
   it("Applies primary style to sign in button", () => {
-    const component = render(MainNav);
+    const component = renderMainNav();
 
     // Sign in button
     const loginButton = component.getByRole("button", {
@@ -37,7 +49,7 @@ describe("MainNav", () => {
 
   describe("When the user logs in", () => {
     it("Displays user profile picture", async () => {
-      const component = render(MainNav);
+      const component = renderMainNav();
 
       // Test if profile image is not exist
       let profileImage = component.queryByRole("img", {
