@@ -17,9 +17,9 @@
               :key="page.title"
               class="ml-9 h-full first:ml-0"
             >
-              <a href="" class="flex h-full items-center py-2.5">
+              <router-link :to="page.link" class="flex h-full items-center py-2.5">
                 {{ page.title }}
-              </a>
+              </router-link>
             </li>
           </ul>
         </nav>
@@ -67,7 +67,7 @@ export default {
         },
         {
           title: "Jobs",
-          link: "/",
+          link: "/jobs/results",
         },
       ],
       isLoggedIn: false,
