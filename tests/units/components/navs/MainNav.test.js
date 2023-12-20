@@ -8,6 +8,11 @@ describe("MainNav", () => {
   const renderMainNav = () => {
     return render(MainNav, {
       global: {
+        mocks: {
+          $route: {
+            name: "Home",
+          },
+        },
         stubs: {
           FontAwesomeIcon: true,
           RouterLink: RouterLinkStub,
