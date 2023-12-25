@@ -1,7 +1,7 @@
 import { render } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 
-import JobSearchForm from "@/components/JobSearchForm.vue";
+import JobSearchForm from "@/components/job/JobSearchForm.vue";
 
 describe("JobSearchForm", () => {
   const userInputs = {
