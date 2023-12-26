@@ -12,6 +12,7 @@
 
 <script>
 import JobListing from "./JobListing.vue";
+import axios from 'axios';
 
 export default {
   name: "JobListings",
@@ -22,8 +23,8 @@ export default {
   },
   methods: {
     async fetchJobs() {
-      const response = await fetch("http://localhost:3000/jobs");
-      this.jobs = await response.json();
+      const response = await axios.get("http://localhost:3000/jobs");
+      this.jobs = await response.data;
     },
   },
   created() {
