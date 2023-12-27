@@ -68,7 +68,8 @@ export default {
   },
   methods: {
     async fetchJobs() {
-      const response = await axios.get("http://localhost:3000/jobs");
+      const jobsURL = import.meta.env.VITE_API_URL + "/jobs";
+      const response = await axios.get(jobsURL);
       this.jobs = await response.data;
     },
   },

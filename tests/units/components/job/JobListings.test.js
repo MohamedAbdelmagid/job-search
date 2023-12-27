@@ -6,7 +6,7 @@ import JobListings from "@/components/job/JobListings.vue";
 vi.mock("axios");
 
 describe("JobListings", () => {
-  const link = "http://localhost:3000/jobs";
+  const link = import.meta.env.VITE_API_URL + "/jobs";
   const createRoute = (queryParams = {}) => ({
     query: {
       page: "1",
