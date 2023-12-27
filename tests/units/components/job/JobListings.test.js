@@ -7,10 +7,19 @@ vi.mock("axios");
 
 describe("JobListings", () => {
   const link = "http://localhost:3000/jobs";
+  const createRoute = (queryParams = {}) => ({
+    query: {
+      page: "1",
+      ...queryParams,
+    }
+  })
 
-  const renderJobListings = () => {
+  const renderJobListings = ($route = createRoute()) => {
     return render(JobListings, {
       global: {
+        mocks: {
+          $route,
+        },
         stubs: {
           RouterLink: RouterLinkStub,
         },
@@ -26,12 +35,12 @@ describe("JobListings", () => {
   });
 
   it("Creates a job listing for every job", async () => {
-    axios.get.mockResolvedValue({ data: Array(15).fill({}) });
+    axios.get.mockResolvedValue({ data: Array(10).fill({}) });
     const component = renderJobListings();
     // findAllByRole func return a promise because
     // it waits for component to render
     const listings = await component.findAllByRole("listitem");
 
-    expect(listings).toHaveLength(15);
+    expect(listings).toHaveLength(10);
   });
 });

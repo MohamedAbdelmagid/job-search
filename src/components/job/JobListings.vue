@@ -2,11 +2,17 @@
   <main class="flex-auto bg-brand-gray-2 p-8">
     <ol>
       <JobListing
-        v-for="job in jobs"
+        v-for="job in displayedJobs"
         :key="job.id"
         :job="job"
       />
     </ol>
+
+    <div class="mx-auto mt-8">
+      <div class="flex flex-row flex-nowrap">
+        <p class="flex-grow text-sm">Page {{ currentPage }}</p>
+      </div>
+    </div>
   </main>
 </template>
 
@@ -20,6 +26,16 @@ export default {
     return {
       jobs: [],
     };
+  },
+  computed: {
+    currentPage() {
+      return Number.parseInt(this.$route.query.page || 1)
+    },
+    displayedJobs() {
+      const firstIndex = (this.currentPage - 1) * 10
+      const lastIndex = this.currentPage * 10
+      return this.jobs.slice(firstIndex, lastIndex)
+    }
   },
   methods: {
     async fetchJobs() {
