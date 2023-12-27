@@ -65,7 +65,7 @@ describe("JobListings", () => {
   });
 
   describe("When user is on first page", () => {
-    it("Does no show link to previous page", async () => {
+    it("Does not show link to previous page", async () => {
       axios.get.mockResolvedValue({ data: Array(20).fill({}) });
 
       const component = renderJobListings();
@@ -83,6 +83,28 @@ describe("JobListings", () => {
 
       const nextLink = component.queryByRole("link", { name: /next/i });
       expect(nextLink).toBeInTheDocument();
+    });
+  });
+
+  describe("When user is on last page", () => {
+    it("Does not show link to next page", async () => {
+      axios.get.mockResolvedValue({ data: Array(20).fill({}) });
+
+      const component = renderJobListings(createRoute({ page: "2" }));
+      await component.findAllByRole("listitem");  // Make sure jobs are rendered
+
+      const nextLink = component.queryByRole("link", { name: /next/i });
+      expect(nextLink).not.toBeInTheDocument();
+    });
+
+    it("Shows link to previous page", async () => {
+      axios.get.mockResolvedValue({ data: Array(20).fill({}) });
+
+      const component = renderJobListings(createRoute({ page: "2" }));
+      await component.findAllByRole("listitem");  // Make sure jobs are rendered
+
+      const previousLink = component.queryByRole("link", { name: /previous/i });
+      expect(previousLink).toBeInTheDocument();
     });
   });
 });
