@@ -28,12 +28,12 @@
         </nav>
 
         <div class="my-auto ml-auto">
-          <ProfileImage v-if="userStore.isLoggedIn" />
-          <ActionButton v-else text="Sign in" @click="userStore.loginUser" />
+          <ProfileImage v-if="isLoggedIn" />
+          <ActionButton v-else text="Sign in" @click="loginUser" />
         </div>
       </div>
 
-      <SubNav v-if="userStore.isLoggedIn" />
+      <SubNav v-if="isLoggedIn" />
     </div>
   </header>
 </template>
@@ -44,7 +44,7 @@ import ProfileImage from "@/components/nav/ProfileImage.vue";
 import SubNav from "@/components/nav/SubNav.vue";
 
 import { useUserStore } from "@/stores/user";
-import { mapStores } from "pinia";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "MainNav",
@@ -79,13 +79,16 @@ export default {
     };
   },
   computed: {
-    ...mapStores(useUserStore),
+    ...mapState(useUserStore, ["isLoggedIn"]),
     headerHeight() {
       return {
-        "h-16": !this.userStore.isLoggedIn,
-        "h-32": this.userStore.isLoggedIn,
+        "h-16": !this.isLoggedIn,
+        "h-32": this.isLoggedIn,
       };
     },
+  },
+  methods: {
+    ...mapActions(useUserStore, ["loginUser"])
   },
   components: {
     ActionButton,
