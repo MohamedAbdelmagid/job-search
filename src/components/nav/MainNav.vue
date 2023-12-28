@@ -17,7 +17,10 @@
               :key="page.title"
               class="ml-9 h-full first:ml-0"
             >
-              <router-link :to="page.link" class="flex h-full items-center py-2.5">
+              <router-link
+                :to="page.link"
+                class="flex h-full items-center py-2.5"
+              >
                 {{ page.title }}
               </router-link>
             </li>
@@ -25,12 +28,12 @@
         </nav>
 
         <div class="my-auto ml-auto">
-          <ProfileImage v-if="isLoggedIn" />
-          <ActionButton v-else text="Sign in" @click="loginUser" />
+          <ProfileImage v-if="userStore.isLoggedIn" />
+          <ActionButton v-else text="Sign in" @click="userStore.loginUser" />
         </div>
       </div>
 
-      <SubNav v-if="isLoggedIn" />
+      <SubNav v-if="userStore.isLoggedIn" />
     </div>
   </header>
 </template>
@@ -39,6 +42,9 @@
 import ActionButton from "@/components/shared/ActionButton.vue";
 import ProfileImage from "@/components/nav/ProfileImage.vue";
 import SubNav from "@/components/nav/SubNav.vue";
+
+import { useUserStore } from "@/stores/user";
+import { mapStores } from "pinia";
 
 export default {
   name: "MainNav",
@@ -70,20 +76,15 @@ export default {
           link: "/jobs/results",
         },
       ],
-      isLoggedIn: false,
     };
   },
   computed: {
+    ...mapStores(useUserStore),
     headerHeight() {
       return {
-        "h-16": !this.isLoggedIn,
-        "h-32": this.isLoggedIn,
+        "h-16": !this.userStore.isLoggedIn,
+        "h-32": this.userStore.isLoggedIn,
       };
-    },
-  },
-  methods: {
-    loginUser() {
-      this.isLoggedIn = true;
     },
   },
   components: {
