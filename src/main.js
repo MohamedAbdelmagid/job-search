@@ -14,7 +14,7 @@ library.add(faSearch);
 const pinia = createPinia()
 
 createApp(JobSearchApp)
-  .component("font-awesome-icon", FontAwesomeIcon)
   .use(router)
   .use(pinia)
+  .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");

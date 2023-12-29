@@ -37,17 +37,15 @@
 </template>
 
 <script>
+import { mapActions, mapState } from "pinia";
+import { useJobStore } from "@/stores/job";
+
 import JobListing from "./JobListing.vue";
-import axios from "axios";
 
 export default {
   name: "JobListings",
-  data() {
-    return {
-      jobs: [],
-    };
-  },
   computed: {
+    ...mapState(useJobStore, ["jobs"]),
     currentPage() {
       return Number.parseInt(this.$route.query.page || 1);
     },
@@ -67,11 +65,7 @@ export default {
     },
   },
   methods: {
-    async fetchJobs() {
-      const jobsURL = import.meta.env.VITE_API_URL + "/jobs";
-      const response = await axios.get(jobsURL);
-      this.jobs = await response.data;
-    },
+    ...mapActions(useJobStore, ["fetchJobs"]),
   },
   created() {
     this.fetchJobs();
