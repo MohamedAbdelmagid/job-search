@@ -9,15 +9,17 @@
           <action-button text="Clear Filters" variant="secondary" />
         </div>
       </div>
+      <collapsible-accordion></collapsible-accordion>
     </section>
   </div>
 </template>
 
 <script>
 import ActionButton from "@/components/shared/ActionButton.vue";
+import CollapsibleAccordion from "@/components/shared/CollapsibleAccordion.vue";
 
 export default {
   name: "JobFiltersSidebar",
-  components: { ActionButton },
+  components: { ActionButton, CollapsibleAccordion },
 };
 </script>
