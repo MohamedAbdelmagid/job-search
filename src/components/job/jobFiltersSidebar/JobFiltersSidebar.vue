@@ -9,7 +9,7 @@
           <action-button text="Clear Filters" variant="secondary" />
         </div>
       </div>
-      <collapsible-accordion header="Organizations"></collapsible-accordion>
+      <organizations />
     </section>
   </div>
 </template>
@@ -17,9 +17,10 @@
 <script>
 import ActionButton from "@/components/shared/ActionButton.vue";
 import CollapsibleAccordion from "@/components/shared/CollapsibleAccordion.vue";
+import Organizations from "@/components/job/jobFiltersSidebar/Organizations.vue";
 
 export default {
   name: "JobFiltersSidebar",
-  components: { ActionButton, CollapsibleAccordion },
+  components: { ActionButton, CollapsibleAccordion, Organizations },
 };
 </script>
