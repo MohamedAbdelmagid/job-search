@@ -8,6 +8,7 @@
               :id="org"
               :value="org"
               v-model="selectedOrgs"
+              @change="setSelectedOrgs(selectedOrgs)"
               type="checkbox"
               class="mr-3"
             />
@@ -21,7 +22,7 @@
 
 <script>
 import CollapsibleAccordion from "@/components/shared/CollapsibleAccordion.vue";
-import { mapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useJobStore } from "@/stores/job";
 
 export default {
@@ -33,6 +34,9 @@ export default {
   },
   computed: {
     ...mapState(useJobStore, ["organizations"]),
+  },
+  methods: {
+    ...mapActions(useJobStore, ["setSelectedOrgs"]),
   },
   components: {
     CollapsibleAccordion,

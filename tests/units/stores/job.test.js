@@ -32,6 +32,17 @@ describe("Job Module", () => {
         expect(store.jobs).toEqual(jobs);
       });
     });
+
+    describe("setSelectedOrgs", () => {
+      it("Updates orgs the user has chosed to filter jobs by", () => {
+        const orgs = ["VueTube", "Google"];
+
+        const store = useJobStore();
+        store.setSelectedOrgs(orgs);
+
+        expect(store.selectedOrgs).toEqual(orgs);
+      });
+    });
   });
 
   describe("Getters", () => {
