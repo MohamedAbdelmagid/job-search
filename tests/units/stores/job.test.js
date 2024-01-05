@@ -33,4 +33,20 @@ describe("Job Module", () => {
       });
     });
   });
+
+  describe("Getters", () => {
+    describe("organization", () => {
+      it("Finds unique organizations from list of jobs", () => {
+        const store = useJobStore();
+        store.jobs = [
+          { organization: "VueTube" },
+          { organization: "Google" },
+          { organization: "VueTube" },
+        ];
+
+        const expectedSet = new Set(["VueTube", "Google"]);
+        expect(store.organizations).toEqual(expectedSet);
+      });
+    });
+  });
 });

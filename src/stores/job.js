@@ -11,4 +11,11 @@ export const useJobStore = defineStore("job", {
       this.jobs = jobs;
     },
   },
+  getters: {
+    organizations(state) {
+      const uniqueOrganizations = new Set();
+      state.jobs.forEach((job) => uniqueOrganizations.add(job.organization));
+      return uniqueOrganizations;
+    },
+  },
 });
