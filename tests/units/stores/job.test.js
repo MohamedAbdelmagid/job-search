@@ -61,19 +61,32 @@ describe("Job Module", () => {
     });
 
     describe("filteredJobs", () => {
+      const jobs = [
+        { organization: "VueTube" },
+        { organization: "Google" },
+        { organization: "Amazon" },
+      ];
+
       it("Identifies jobs that are associated with the given orgs", () => {
         const store = useJobStore();
-        store.jobs = [
-          { organization: "VueTube" },
-          { organization: "Google" },
-          { organization: "Amazon" },
-        ];
+        store.jobs = jobs;
         store.setSelectedOrgs(["VueTube", "Amazon"]);
 
         expect(store.filteredJobs).toEqual([
           { organization: "VueTube" },
           { organization: "Amazon" },
         ]);
+      });
+
+      describe("When user has not selected any orgs", () => {
+        it("Returns all jobs", () => {
+          const store = useJobStore();
+          store.jobs = jobs;
+
+          store.setSelectedOrgs([]);
+
+          expect(store.filteredJobs).toEqual(jobs);
+        });
       });
     });
   });
