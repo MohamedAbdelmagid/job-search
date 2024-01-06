@@ -19,6 +19,7 @@ describe("Organizations", () => {
 
   it("Renders unique list of organizations from jobs", async () => {
     const pinia = createTestingPinia();
+    
     const jobStore = useJobStore();
     jobStore.organizations = new Set(["Google", "Amazon"]);
 
@@ -30,5 +31,22 @@ describe("Organizations", () => {
     const listItems = component.getAllByRole("listitem");
     const orgs = listItems.map((node) => node.textContent);
     expect(orgs).toEqual(["Google", "Amazon"]);
+  });
+
+  it("Communicates that user has selected checkbox for organization", async () => {
+    const pinia = createTestingPinia();
+
+    const jobStore = useJobStore();
+    jobStore.organizations = new Set(["Google", "Amazon"]);
+
+    const component = renderOrganizations(pinia);
+
+    const button = component.getByRole("button", { name: /organization/i });
+    await userEvent.click(button);
+    
+    const checkbox = component.getByRole("checkbox", { name: /amazon/i });
+    await userEvent.click(checkbox);
+
+    expect(jobStore.setSelectedOrgs).toHaveBeenCalledWith(["Amazon"]);
   });
 });
