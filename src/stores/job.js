@@ -21,5 +21,10 @@ export const useJobStore = defineStore("job", {
       state.jobs.forEach((job) => uniqueOrganizations.add(job.organization));
       return uniqueOrganizations;
     },
+    filteredJobs(state) {
+      return state.jobs.filter((job) =>
+        state.selectedOrgs.includes(job.organization)
+      );
+    },
   },
 });

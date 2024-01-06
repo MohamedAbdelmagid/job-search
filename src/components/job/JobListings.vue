@@ -1,11 +1,7 @@
 <template>
   <main class="flex-auto bg-brand-gray-2 p-8">
     <ol>
-      <JobListing
-        v-for="job in displayedJobs"
-        :key="job.id"
-        :job="job"
-      />
+      <JobListing v-for="job in displayedJobs" :key="job.id" :job="job" />
     </ol>
 
     <div class="mx-auto mt-8">
@@ -45,7 +41,9 @@ import JobListing from "./JobListing.vue";
 export default {
   name: "JobListings",
   computed: {
-    ...mapState(useJobStore, ["jobs"]),
+    ...mapState(useJobStore, {
+      jobs: "filteredJobs",
+    }),
     currentPage() {
       return Number.parseInt(this.$route.query.page || 1);
     },
