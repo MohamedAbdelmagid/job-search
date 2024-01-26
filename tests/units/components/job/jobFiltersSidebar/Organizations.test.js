@@ -6,8 +6,13 @@ import Organizations from "@/components/job/jobFiltersSidebar/Organizations.vue"
 import { useJobStore } from "@/stores/job";
 
 describe("Organizations", () => {
-  const renderOrganizations = (pinia) => {
-    return render(Organizations, {
+  const setUp = () => {
+    const pinia = createTestingPinia();
+
+    const jobStore = useJobStore();
+    jobStore.organizations = new Set(["Google", "Amazon"]);
+
+    const component = render(Organizations, {
       global: {
         plugins: [pinia],
         stubs: {
@@ -15,15 +20,12 @@ describe("Organizations", () => {
         },
       },
     });
+
+    return { component, jobStore };
   };
 
   it("Renders unique list of organizations from jobs", async () => {
-    const pinia = createTestingPinia();
-    
-    const jobStore = useJobStore();
-    jobStore.organizations = new Set(["Google", "Amazon"]);
-
-    const component = renderOrganizations(pinia);
+    const { component } = setUp();
 
     const button = component.getByRole("button", { name: /organization/i });
     await userEvent.click(button);
@@ -34,16 +36,11 @@ describe("Organizations", () => {
   });
 
   it("Communicates that user has selected checkbox for organization", async () => {
-    const pinia = createTestingPinia();
-
-    const jobStore = useJobStore();
-    jobStore.organizations = new Set(["Google", "Amazon"]);
-
-    const component = renderOrganizations(pinia);
+    const { component, jobStore } = setUp();
 
     const button = component.getByRole("button", { name: /organization/i });
     await userEvent.click(button);
-    
+
     const checkbox = component.getByRole("checkbox", { name: /amazon/i });
     await userEvent.click(checkbox);
 
