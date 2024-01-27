@@ -5,6 +5,7 @@ export const useJobStore = defineStore("job", {
   state: () => ({
     jobs: [],
     selectedOrgs: [],
+    selectedJobTypes: [],
   }),
   actions: {
     async fetchJobs() {
@@ -14,6 +15,9 @@ export const useJobStore = defineStore("job", {
     setSelectedOrgs(orgs) {
       this.selectedOrgs = orgs;
     },
+    setSelectedJobTypes(types) {
+      this.selectedJobTypes = types;
+    },
   },
   getters: {
     organizations(state) {
@@ -21,10 +25,21 @@ export const useJobStore = defineStore("job", {
       state.jobs.forEach((job) => uniqueOrganizations.add(job.organization));
       return uniqueOrganizations;
     },
+    jobTypes(state) {
+      const uniqueJobTypes = new Set();
+      state.jobs.forEach((job) => uniqueJobTypes.add(job.jobType));
+      return uniqueJobTypes;
+    },
     filteredJobs(state) {
       if (!state.selectedOrgs.length) return state.jobs;
       return state.jobs.filter((job) =>
         state.selectedOrgs.includes(job.organization)
+      );
+    },
+    jobsByTypes(state) {
+      if (!state.selectedJobTypes.length) return state.jobs;
+      return state.jobs.filter((job) =>
+        state.selectedJobTypes.includes(job.jobType)
       );
     },
   },
