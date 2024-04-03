@@ -102,7 +102,7 @@ describe("Job Module", () => {
         store.jobs = jobs;
         store.setSelectedOrgs(["VueTube", "Amazon"]);
 
-        expect(store.filteredJobs).toEqual([
+        expect(store.jobsByOrgs).toEqual([
           { organization: "VueTube" },
           { organization: "Amazon" },
         ]);
@@ -115,7 +115,7 @@ describe("Job Module", () => {
 
           store.setSelectedOrgs([]);
 
-          expect(store.filteredJobs).toEqual(jobs);
+          expect(store.jobsByOrgs).toEqual(jobs);
         });
       });
     });

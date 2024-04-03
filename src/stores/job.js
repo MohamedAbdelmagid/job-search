@@ -30,7 +30,7 @@ export const useJobStore = defineStore("job", {
       state.jobs.forEach((job) => uniqueJobTypes.add(job.jobType));
       return uniqueJobTypes;
     },
-    filteredJobs(state) {
+    jobsByOrgs(state) {
       if (!state.selectedOrgs.length) return state.jobs;
       return state.jobs.filter((job) =>
         state.selectedOrgs.includes(job.organization)
