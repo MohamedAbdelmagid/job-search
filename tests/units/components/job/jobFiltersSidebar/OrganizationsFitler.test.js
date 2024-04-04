@@ -2,17 +2,17 @@ import { render } from "@testing-library/vue";
 import userEvent from "@testing-library/user-event";
 import { createTestingPinia } from "@pinia/testing";
 
-import Organizations from "@/components/job/jobFiltersSidebar/Organizations.vue";
+import OrganizationsFilter from "@/components/job/jobFiltersSidebar/OrganizationsFilter.vue";
 import { useJobStore } from "@/stores/job";
 
-describe("Organizations", () => {
+describe("OrganizationsFilter", () => {
   const setUp = () => {
     const pinia = createTestingPinia();
 
     const jobStore = useJobStore();
     jobStore.organizations = new Set(["Google", "Amazon"]);
 
-    const component = render(Organizations, {
+    const component = render(OrganizationsFilter, {
       global: {
         plugins: [pinia],
         stubs: {
