@@ -4,7 +4,7 @@
       <div v-if="onJobResultsPage">
         <font-awesome-icon :icon="['fas', 'search']" class="mr-3" />
         <span>
-          <span class="text-brand-green-1"> {{ jobsByOrgs.length }}</span>
+          <span class="text-brand-green-1"> {{ filteredJobs.length }}</span>
           jobs matched
         </span>
       </div>
@@ -19,7 +19,7 @@ import { useJobStore } from "@/stores/job";
 export default {
   name: "SubNav",
   computed: {
-    ...mapState(useJobStore, ["jobsByOrgs"]),
+    ...mapState(useJobStore, ["filteredJobs"]),
 
     onJobResultsPage() {
       return this.$route.name === "JobResults";

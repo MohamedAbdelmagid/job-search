@@ -62,90 +62,88 @@ describe("Job Module", () => {
   });
 
   describe("Getters", () => {
-    describe("organization", () => {
+    const jobs = [
+      { organization: "VueTube", jobType: "Full-time" },
+      { organization: "Google", jobType: "Temporary" },
+      { organization: "Amazon", jobType: "Full-time" },
+    ];
+
+    describe("organizations", () => {
       it("Finds unique organizations from list of jobs", () => {
         const store = useJobStore();
-        store.jobs = [
-          { organization: "VueTube" },
-          { organization: "Google" },
-          { organization: "VueTube" },
-        ];
+        store.jobs = jobs;
 
-        const expectedSet = new Set(["VueTube", "Google"]);
+        const expectedSet = new Set(["VueTube", "Google", "Amazon"]);
         expect(store.organizations).toEqual(expectedSet);
       });
     });
 
-    describe("Job types", () => {
+    describe("jobTypes", () => {
       it("Finds unique job types from list of jobs", () => {
         const store = useJobStore();
-        store.jobs = [
-          { jobType: "Full-time" },
-          { jobType: "Temporary" },
-          { jobType: "Full-time" },
-        ];
+        store.jobs = jobs;
 
         const expectedSet = new Set(["Full-time", "Temporary"]);
         expect(store.jobTypes).toEqual(expectedSet);
       });
     });
 
-    describe("Filtered jobs by orgs", () => {
-      const jobs = [
-        { organization: "VueTube" },
-        { organization: "Google" },
-        { organization: "Amazon" },
-      ];
-
-      it("Identifies jobs that are associated with the given orgs", () => {
-        const store = useJobStore();
-        store.jobs = jobs;
-        store.setSelectedOrgs(["VueTube", "Amazon"]);
-
-        expect(store.jobsByOrgs).toEqual([
-          { organization: "VueTube" },
-          { organization: "Amazon" },
-        ]);
-      });
-
+    describe("FilterByOrgs", () => {
       describe("When user has not selected any orgs", () => {
-        it("Returns all jobs", () => {
+        it("Returns true always", () => {
           const store = useJobStore();
           store.jobs = jobs;
-
           store.setSelectedOrgs([]);
 
-          expect(store.jobsByOrgs).toEqual(jobs);
+          const result = store.filterByOrgs(jobs[0]);
+          expect(result).toEqual(true);
         });
       });
     });
 
-    describe("Filtered jobs by job types", () => {
-      const jobs = [
-        { jobType: "Full-time" },
-        { jobType: "Temporary" },
-        { jobType: "Part-time" },
-      ];
+    describe("FilterByTypes", () => {
+      describe("When user has not selected any type", () => {
+        it("Returns true always", () => {
+          const store = useJobStore();
+          store.jobs = jobs;
+          store.setSelectedJobTypes([]);
 
-      it("Identifies jobs that are associated with the given types", () => {
-        const store = useJobStore();
-        store.jobs = jobs;
-        store.setSelectedJobTypes(["Full-time", "Part-time"]);
+          const result = store.filterByTypes(jobs[0]);
+          expect(result).toEqual(true);
+        });
+      });
+    });
 
-        expect(store.jobsByTypes).toEqual([
-          { jobType: "Full-time" },
-          { jobType: "Part-time" },
-        ]);
+    describe("filteredJobs", () => {
+      describe("When user has selected orgs", () => {
+        it("Identifies jobs that are associated with the given orgs", () => {
+          const store = useJobStore();
+          store.jobs = jobs;
+          store.setSelectedOrgs(["VueTube", "Amazon"]);
+
+          expect(store.filteredJobs).toEqual([jobs[0], jobs[2]]);
+        });
       });
 
-      describe("When user has not selected any job type", () => {
-        it("Returns all jobs", () => {
+      describe("When user has selected types", () => {
+        it("Identifies jobs that are associated with the given types", () => {
+          const store = useJobStore();
+          store.jobs = jobs;
+          store.setSelectedJobTypes(["Full-time"]);
+
+          expect(store.filteredJobs).toEqual([jobs[0], jobs[2]]);
+        });
+      });
+
+      describe("When user has selected types & orgs", () => {
+        it("Identifies jobs that are associated with the given types & orgs", () => {
           const store = useJobStore();
           store.jobs = jobs;
 
-          store.setSelectedJobTypes([]);
+          store.setSelectedJobTypes(["Full-time"]);
+          store.setSelectedOrgs(["Amazon"]);
 
-          expect(store.jobsByTypes).toEqual(jobs);
+          expect(store.filteredJobs).toEqual([jobs[2]]);
         });
       });
     });

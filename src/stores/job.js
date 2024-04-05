@@ -30,17 +30,20 @@ export const useJobStore = defineStore("job", {
       state.jobs.forEach((job) => uniqueJobTypes.add(job.jobType));
       return uniqueJobTypes;
     },
-    jobsByOrgs(state) {
-      if (!state.selectedOrgs.length) return state.jobs;
-      return state.jobs.filter((job) =>
-        state.selectedOrgs.includes(job.organization)
-      );
+    filterByOrgs: (state) => (job) => {
+      const noSelectedOrg = state.selectedOrgs.length == 0;
+      if (noSelectedOrg) return true;
+      return state.selectedOrgs.includes(job.organization);
     },
-    jobsByTypes(state) {
-      if (!state.selectedJobTypes.length) return state.jobs;
-      return state.jobs.filter((job) =>
-        state.selectedJobTypes.includes(job.jobType)
-      );
+    filterByTypes: (state) => (job) => {
+      const noSelectedType = state.selectedJobTypes.length == 0;
+      if (noSelectedType) return true;
+      return state.selectedJobTypes.includes(job.jobType);
+    },
+    filteredJobs(state) {
+      return state.jobs
+        .filter((job) => this.filterByOrgs(job))
+        .filter((job) => this.filterByTypes(job));
     },
   },
 });

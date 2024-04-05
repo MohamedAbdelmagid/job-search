@@ -32,7 +32,7 @@ describe("SubNav", () => {
       const { component, jobStore } = setUp(routeName);
 
       const numbersOfJobs = 16;
-      jobStore.jobsByOrgs = Array(numbersOfJobs).fill({});
+      jobStore.jobs = Array(numbersOfJobs).fill({});
 
       const jobsCount = await component.findByText(numbersOfJobs);
       expect(jobsCount).toBeInTheDocument();
@@ -45,7 +45,7 @@ describe("SubNav", () => {
       const { component, jobStore } = setUp(routeName);
 
       const numbersOfJobs = 16;
-      jobStore.jobsByOrgs = Array(numbersOfJobs).fill({});
+      jobStore.jobs = Array(numbersOfJobs).fill({});
 
       const jobsCount = component.queryByText(numbersOfJobs);
       expect(jobsCount).not.toBeInTheDocument();

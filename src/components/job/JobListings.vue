@@ -42,7 +42,7 @@ export default {
   name: "JobListings",
   computed: {
     ...mapState(useJobStore, {
-      jobs: "jobsByOrgs",
+      jobs: "filteredJobs",
     }),
     currentPage() {
       return Number.parseInt(this.$route.query.page || 1);
