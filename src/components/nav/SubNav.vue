@@ -12,18 +12,14 @@
   </div>
 </template>
 
-<script>
-import { mapState } from "pinia";
+<script setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
 import { useJobStore } from "@/stores/job";
 
-export default {
-  name: "SubNav",
-  computed: {
-    ...mapState(useJobStore, ["filteredJobs"]),
+const route = useRoute();
+const onJobResultsPage = computed(() => route.name === "JobResults");
 
-    onJobResultsPage() {
-      return this.$route.name === "JobResults";
-    },
-  },
-};
+const jobStore = useJobStore();
+const filteredJobs = computed(() => jobStore.filteredJobs);
 </script>

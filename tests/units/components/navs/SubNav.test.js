@@ -4,19 +4,18 @@ import { createTestingPinia } from "@pinia/testing";
 import SubNav from "@/components/nav/SubNav.vue";
 import { useJobStore } from "@/stores/job";
 
+import { useRoute } from "vue-router";
+vi.mock("vue-router");
+
 describe("SubNav", () => {
   const setUp = (routeName) => {
     const pinia = createTestingPinia();
     const jobStore = useJobStore();
+    useRoute.mockReturnValue({ name: routeName });
 
     const component = render(SubNav, {
       global: {
         plugins: [pinia],
-        mocks: {
-          $route: {
-            name: routeName,
-          },
-        },
         stubs: {
           FontAwesomeIcon: true,
         },
