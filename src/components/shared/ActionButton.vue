@@ -4,23 +4,20 @@
   </button>
 </template>
 
-<script>
-export default {
-  name: "ActionButton",
-  props: {
-    text: {
-      type: String,
-      required: true,
-    },
-    variant: {
-      type: String,
-      default: "primary",
-      validator(value) {
-        return ["primary", "secondary"].includes(value);
-      },
+<script setup>
+defineProps({
+  text: {
+    type: String,
+    required: true,
+  },
+  variant: {
+    type: String,
+    default: "primary",
+    validator(value) {
+      return ["primary", "secondary"].includes(value);
     },
   },
-};
+});
 </script>
 
 <style scoped>
