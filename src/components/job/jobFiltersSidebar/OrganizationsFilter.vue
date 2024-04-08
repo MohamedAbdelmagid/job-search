@@ -8,7 +8,7 @@
               :id="org"
               :value="org"
               v-model="selectedOrgs"
-              @change="setSelectedOrgs(selectedOrgs)"
+              @change="updateSelectedOrgs"
               type="checkbox"
               class="mr-3"
             />
@@ -37,6 +37,11 @@ export default {
   },
   methods: {
     ...mapActions(useJobStore, ["setSelectedOrgs"]),
+
+    updateSelectedOrgs() {
+      this.setSelectedOrgs(this.selectedOrgs);
+      this.$router.push({ name: "JobResults" });
+    },
   },
   components: {
     CollapsibleAccordion,

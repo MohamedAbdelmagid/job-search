@@ -8,7 +8,7 @@
               :id="jobType"
               :value="jobType"
               v-model="selectedJobTypes"
-              @change="setSelectedJobTypes(selectedJobTypes)"
+              @change="updateSelectedJobTypes"
               type="checkbox"
               class="mr-3"
             />
@@ -37,6 +37,11 @@ export default {
   },
   methods: {
     ...mapActions(useJobStore, ["setSelectedJobTypes"]),
+
+    updateSelectedJobTypes() {
+      this.setSelectedJobTypes(this.selectedJobTypes);
+      this.$router.push({ name: "JobResults" });
+    },
   },
   components: {
     CollapsibleAccordion,

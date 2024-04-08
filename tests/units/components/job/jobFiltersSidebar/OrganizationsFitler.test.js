@@ -8,12 +8,16 @@ import { useJobStore } from "@/stores/job";
 describe("OrganizationsFilter", () => {
   const setUp = () => {
     const pinia = createTestingPinia();
+    const $router = { push: vi.fn() };
 
     const jobStore = useJobStore();
     jobStore.organizations = new Set(["Google", "Amazon"]);
 
     const component = render(OrganizationsFilter, {
       global: {
+        mocks: {
+          $router,
+        },
         plugins: [pinia],
         stubs: {
           FontAwesomeIcon: true,
@@ -21,7 +25,7 @@ describe("OrganizationsFilter", () => {
       },
     });
 
-    return { component, jobStore };
+    return { component, jobStore, $router };
   };
 
   it("Renders unique list of organizations from jobs", async () => {
@@ -35,15 +39,29 @@ describe("OrganizationsFilter", () => {
     expect(orgs).toEqual(["Google", "Amazon"]);
   });
 
-  it("Communicates that user has selected checkbox for organization", async () => {
-    const { component, jobStore } = setUp();
+  describe("When user clicks checkbox", () => {
+    it("Communicates that user has selected checkbox for organization", async () => {
+      const { component, jobStore } = setUp();
 
-    const button = component.getByRole("button", { name: /organization/i });
-    await userEvent.click(button);
+      const button = component.getByRole("button", { name: /organization/i });
+      await userEvent.click(button);
 
-    const checkbox = component.getByRole("checkbox", { name: /amazon/i });
-    await userEvent.click(checkbox);
+      const checkbox = component.getByRole("checkbox", { name: /amazon/i });
+      await userEvent.click(checkbox);
 
-    expect(jobStore.setSelectedOrgs).toHaveBeenCalledWith(["Amazon"]);
+      expect(jobStore.setSelectedOrgs).toHaveBeenCalledWith(["Amazon"]);
+    });
+
+    it("Navigates user to job results page to see new batch of jobs", async () => {
+      const { component, $router } = setUp();
+
+      const button = component.getByRole("button", { name: /organization/i });
+      await userEvent.click(button);
+
+      const checkbox = component.getByRole("checkbox", { name: /amazon/i });
+      await userEvent.click(checkbox);
+
+      expect($router.push).toHaveBeenCalledWith({ name: "JobResults" });
+    });
   });
 });

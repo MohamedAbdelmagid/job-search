@@ -8,12 +8,16 @@ import { useJobStore } from "@/stores/job";
 describe("JobTypesFilter", () => {
   const setUp = () => {
     const pinia = createTestingPinia();
+    const $router = { push: vi.fn() };
 
     const jobStore = useJobStore();
     jobStore.jobTypes = new Set(["Full-time", "Part-time"]);
 
     const component = render(JobTypesFilter, {
       global: {
+        mocks: {
+          $router,
+        },
         plugins: [pinia],
         stubs: {
           FontAwesomeIcon: true,
@@ -21,7 +25,7 @@ describe("JobTypesFilter", () => {
       },
     });
 
-    return { component, jobStore };
+    return { component, jobStore, $router };
   };
 
   it("Renders unique list of jobTypes from jobs", async () => {
@@ -35,15 +39,29 @@ describe("JobTypesFilter", () => {
     expect(jobTypes).toEqual(["Full-time", "Part-time"]);
   });
 
-  it("Communicates that user has selected checkbox for jobType", async () => {
-    const { component, jobStore } = setUp();
+  describe("When user clicks checkbox", () => {
+    it("Communicates that user has selected checkbox for jobType", async () => {
+      const { component, jobStore } = setUp();
 
-    const button = component.getByRole("button", { name: /job types/i });
-    await userEvent.click(button);
+      const button = component.getByRole("button", { name: /job types/i });
+      await userEvent.click(button);
 
-    const checkbox = component.getByRole("checkbox", { name: /full-time/i });
-    await userEvent.click(checkbox);
+      const checkbox = component.getByRole("checkbox", { name: /full-time/i });
+      await userEvent.click(checkbox);
 
-    expect(jobStore.setSelectedJobTypes).toHaveBeenCalledWith(["Full-time"]);
+      expect(jobStore.setSelectedJobTypes).toHaveBeenCalledWith(["Full-time"]);
+    });
+
+    it("Navigates user to job results page to see fresh batch of filtered jobs", async () => {
+      const { component, $router } = setUp();
+
+      const button = component.getByRole("button", { name: /job types/i });
+      await userEvent.click(button);
+
+      const checkbox = component.getByRole("checkbox", { name: /full-time/i });
+      await userEvent.click(checkbox);
+
+      expect($router.push).toHaveBeenCalledWith({ name: "JobResults" });
+    });
   });
 });
