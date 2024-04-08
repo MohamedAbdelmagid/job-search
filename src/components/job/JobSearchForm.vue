@@ -27,32 +27,24 @@
   </form>
 </template>
 
-<script>
+<script setup>
 import ActionButton from "@/components/shared/ActionButton.vue";
 import TextInput from "@/components/shared/TextInput.vue";
 
-export default {
-  name: "JobSearchForm",
-  components: {
-    ActionButton,
-    TextInput,
-  },
-  data() {
-    return {
-      role: "",
-      location: "",
-    };
-  },
-  methods: {
-    searchJobs() {
-      this.$router.push({
-        name: "JobResults",
-        query: {
-          role: this.role,
-          location: this.location,
-        },
-      });
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+
+const role = ref("");
+const location = ref("");
+
+const router = useRouter();
+const searchJobs = () => {
+  router.push({
+    name: "JobResults",
+    query: {
+      role: role.value,
+      location: location.value,
     },
-  },
+  });
 };
 </script>
