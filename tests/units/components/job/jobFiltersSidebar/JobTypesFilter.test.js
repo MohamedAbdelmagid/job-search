@@ -5,19 +5,22 @@ import { createTestingPinia } from "@pinia/testing";
 import JobTypesFilter from "@/components/job/jobFiltersSidebar/JobTypesFilter.vue";
 import { useJobStore } from "@/stores/job";
 
+import { useRouter } from "vue-router";
+vi.mock("vue-router");
+
 describe("JobTypesFilter", () => {
   const setUp = () => {
     const pinia = createTestingPinia();
-    const $router = { push: vi.fn() };
+
+    const push = vi.fn();
+    useRouter.mockReturnValue({ push });
+    const $router = useRouter();
 
     const jobStore = useJobStore();
     jobStore.jobTypes = new Set(["Full-time", "Part-time"]);
 
     const component = render(JobTypesFilter, {
       global: {
-        mocks: {
-          $router,
-        },
         plugins: [pinia],
         stubs: {
           FontAwesomeIcon: true,

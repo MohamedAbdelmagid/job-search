@@ -20,31 +20,21 @@
   </collapsible-accordion>
 </template>
 
-<script>
+<script setup>
 import CollapsibleAccordion from "@/components/shared/CollapsibleAccordion.vue";
-import { mapState, mapActions } from "pinia";
+
+import { computed, ref } from "vue";
 import { useJobStore } from "@/stores/job";
+import { useRouter } from "vue-router";
 
-export default {
-  name: "JobTypesFilter",
-  data() {
-    return {
-      selectedJobTypes: [],
-    };
-  },
-  computed: {
-    ...mapState(useJobStore, ["jobTypes"]),
-  },
-  methods: {
-    ...mapActions(useJobStore, ["setSelectedJobTypes"]),
+const selectedJobTypes = ref([]);
 
-    updateSelectedJobTypes() {
-      this.setSelectedJobTypes(this.selectedJobTypes);
-      this.$router.push({ name: "JobResults" });
-    },
-  },
-  components: {
-    CollapsibleAccordion,
-  },
+const jobStore = useJobStore();
+const jobTypes = computed(() => jobStore.jobTypes);
+
+const router = useRouter();
+const updateSelectedJobTypes = () => {
+  jobStore.setSelectedJobTypes(selectedJobTypes.value);
+  router.push({ name: "JobResults" });
 };
 </script>

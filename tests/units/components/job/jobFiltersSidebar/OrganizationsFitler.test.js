@@ -4,20 +4,22 @@ import { createTestingPinia } from "@pinia/testing";
 
 import OrganizationsFilter from "@/components/job/jobFiltersSidebar/OrganizationsFilter.vue";
 import { useJobStore } from "@/stores/job";
+import { useRouter } from "vue-router";
+vi.mock("vue-router");
 
 describe("OrganizationsFilter", () => {
   const setUp = () => {
     const pinia = createTestingPinia();
-    const $router = { push: vi.fn() };
+
+    const push = vi.fn();
+    useRouter.mockReturnValue({ push });
+    const $router = useRouter();
 
     const jobStore = useJobStore();
     jobStore.organizations = new Set(["Google", "Amazon"]);
 
     const component = render(OrganizationsFilter, {
       global: {
-        mocks: {
-          $router,
-        },
         plugins: [pinia],
         stubs: {
           FontAwesomeIcon: true,
