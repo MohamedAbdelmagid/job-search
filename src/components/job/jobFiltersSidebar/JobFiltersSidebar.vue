@@ -9,20 +9,29 @@
           <action-button text="Clear Filters" variant="secondary" />
         </div>
       </div>
-      <OrganizationsFilter />
-      <JobTypesFilter />
+      <JobFilter
+        header="Job Types"
+        :values="jobTypes"
+        :action="jobStore.setSelectedJobTypes"
+      />
+      <JobFilter
+        header="Organizations"
+        :values="organizations"
+        :action="jobStore.setSelectedOrgs"
+      />
     </section>
   </div>
 </template>
 
-<script>
+<script setup>
 import ActionButton from "@/components/shared/ActionButton.vue";
-import CollapsibleAccordion from "@/components/shared/CollapsibleAccordion.vue";
-import OrganizationsFilter from "@/components/job/jobFiltersSidebar/OrganizationsFilter.vue";
-import JobTypesFilter from "@/components/job/jobFiltersSidebar/JobTypesFilter.vue";
+import JobFilter from "@/components/job/jobFiltersSidebar/JobFilter.vue";
 
-export default {
-  name: "JobFiltersSidebar",
-  components: { ActionButton, CollapsibleAccordion, OrganizationsFilter, JobTypesFilter },
-};
+import { computed } from "vue";
+import { useJobStore } from "@/stores/job";
+
+const jobStore = useJobStore();
+
+const jobTypes = computed(() => jobStore.jobTypes);
+const organizations = computed(() => jobStore.organizations);
 </script>
